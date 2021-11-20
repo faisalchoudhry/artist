@@ -1,0 +1,19 @@
+.form-control-borderless {
+    border: none;
+}
+
+.form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+.col-6 > span{
+    font-size: 0.75rem;
+}
+
+hr{
+    margin-top: 0;
+}
+.card-title{
+    margin-bottom: 0;
+}

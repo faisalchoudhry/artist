@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Artist</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!--custom css-->
+    <link rel="stylesheet" href="style/index-styles.css">
+</head>
+<body ng-app="app">
+<div class="container" ng-controller="searchCtrl">
+    <br/>
+    <div class="row justify-content-center" ng-hide="searchBoxState">
+        <div class="col-12 col-md-10 col-lg-8">
+            <div class="card card-sm">
+                <div class="card-body row no-gutters align-items-center">
+                    <div class="col-auto">
+                        <i class="fas fa-search h4 text-body"></i>
+                    </div>
+
+                    <div class="col">
+                        <input class="form-control form-control-lg form-control-borderless" type="text"
+                               placeholder="Search artist here.." ng-model="artist_name"
+                               ng-keyup="$event.keyCode == 13 && getArtistNameFromApi(artist_name)">
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-lg btn-success" ng-click="getArtistNameFromApi(artist_name)">
+                            Search
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div ng-hide="searchResultState" class="search-result-wrapper">
+        <span class="mt-2"><b>{{artist_result.size}}  Results found for <q>{{artist_result.name}}</q></b></span>
+
+        <div class="mt-5 col-12 col-md-10 col-lg-3" style="width: fit-content;">
+            <div class="card" style="">
+                <img ng-src="{{artist_result.thumb_url}}" class="card-img-top" alt="image_not_found" width="200px"
+                     height="200px">
+                <div class="card-body">
+                    <h5 class="card-title">{{artist_result.name}}</h5>
+                    <span style="display: block"><a>{{artist_result.facebook_page_url}}</a></span>
+                    <a href="#" class="btn btn-primary" ng-click="getArtistEventsFromApi(artist_name)">{{artist_result.upcoming_event_count}}
+                        Events</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="event_detail_wrapper">
+        <span class="mt-2" ng-hide="back" style="cursor: pointer"
+              ng-click="backToResult()"><b>< Back to results </b></span>
+
+        <div class="row mt-2" style="" ng-hide="back">
+            <div class="col-12 col-md-4 col-lg-4" style="">
+                <div class="card" style="">
+                    <div class="row">
+                        <div class="col-4">
+                            <img ng-src="{{artist_result.thumb_url}}" class=""
+                                 style="display:inline-block;border-radius: 50px;padding: 10px" alt="image_not_found"
+                                 width="90px"
+                                 height="90px">
+                        </div>
+                        <div class="col-8">
+                            <h5 class="card-title" style="padding-top: 30px">{{artist_result.name}}</h5>
+                            <span style="display: block"><a>{{artist_result.facebook_page_url}}</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5 col-12 col-md-10 col-lg-9" style="">
+                <span class="mt-2" ng-hide="back"><b>{{artist_events.length}} upcoming events</b></span>
+                <div class="row">
+                    <div class="col-sm-12 col-md-4 col-lg-4" ng-repeat="artEvent in artist_events">
+                        <div class="card mt-2" style="">
+                            <div class="card-body">
+                                <h6 class="card-title">Event Details</h6>
+                                <hr style="">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <span style="display: block"><b>Country</b></span>
+                                        <span style="display: block"><a>{{artEvent.venue.country}}</a></span>
+                                        <br>
+                                        <span style="display: block"><b>Date</b></span>
+                                        <span class="">{{artEvent.datetime}}</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <span style="display: block"><b>City</b></span>
+                                        <span style="display: block"><a>{{artEvent.venue.city}}</a></span>
+                                        <br>
+                                        <span style="display: block"><b>Venue</b></span>
+                                        <span style="display: block"><a>{{artEvent.venue.name}}</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Bootstrap CDN-->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+<!--Angular JS-->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<!--custom app.js-->
+<script src="scripts/app.js"></script>
+
+</body>
+</html>
