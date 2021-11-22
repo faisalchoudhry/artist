@@ -7,13 +7,35 @@
     outline: none;
     box-shadow: none;
 }
-.col-6 > span{
+
+.col-6 > span {
     font-size: 0.75rem;
 }
 
-hr{
+hr {
     margin-top: 0;
 }
-.card-title{
+
+.card-title {
     margin-bottom: 0;
+}
+
+.no-gutters {
+    padding: 0.25rem
+}
+
+.bi-search {
+    cursor: pointer;
+    padding: 10px;
+    font-size: 20px
+}
+
+img {
+    display: inline-block;
+    border-radius: 50px;
+    padding: 10px
+}
+
+.artistName {
+    padding-top: 10px
 }

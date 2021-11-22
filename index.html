@@ -3,82 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <title>Search Artist</title>
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Bootstrap Font Icon CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <!--custom css-->
     <link rel="stylesheet" href="style/index-styles.css">
 </head>
+
 <body ng-app="app">
 <div class="container" ng-controller="searchCtrl">
     <br/>
+    <!--Search Div Start-->
     <div class="row justify-content-center" ng-hide="searchBoxState">
         <div class="col-12 col-md-10 col-lg-8">
             <div class="card card-sm">
                 <div class="card-body row no-gutters align-items-center">
-                    <div class="col-auto">
-                        <i class="fas fa-search h4 text-body"></i>
-                    </div>
-
+                    <!--Search Box-->
                     <div class="col">
                         <input class="form-control form-control-lg form-control-borderless" type="text"
                                placeholder="Search artist here.." ng-model="artist_name"
-                               ng-keyup="$event.keyCode == 13 && getArtistNameFromApi(artist_name)">
+                               ng-keyup="$event.keyCode == 13 && getArtistNameFromApi(artist_name)" autofocus
+                               ng-required="true">
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-lg btn-success" ng-click="getArtistNameFromApi(artist_name)">
-                            Search
-                        </button>
+                        <span class="bi-search" ng-click="getArtistNameFromApi(artist_name)"></span>
                     </div>
-
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <div ng-hide="searchResultState" class="search-result-wrapper">
-        <span class="mt-2"><b>{{artist_result.size}}  Results found for <q>{{artist_result.name}}</q></b></span>
-
-        <div class="mt-5 col-12 col-md-10 col-lg-3" style="width: fit-content;">
-            <div class="card" style="">
-                <img ng-src="{{artist_result.thumb_url}}" class="card-img-top" alt="image_not_found" width="200px"
-                     height="200px">
-                <div class="card-body">
-                    <h5 class="card-title">{{artist_result.name}}</h5>
-                    <span style="display: block"><a>{{artist_result.facebook_page_url}}</a></span>
-                    <a href="#" class="btn btn-primary" ng-click="getArtistEventsFromApi(artist_name)">{{artist_result.upcoming_event_count}}
-                        Events</a>
+                    <!--Search Box End-->
                 </div>
             </div>
         </div>
     </div>
+    <!--Search Div End-->
 
+    <!--Artist Result Div Start-->
+    <div ng-hide="searchResultState" class="mt-5 search-result-wrapper">
+        <div class="mt-3 col-12 col-md-4 col-lg-4" style="">
+            <span class="mt-2"><b>{{artist_result.size}}  Results found for <q>{{artist_result.name}}</q></b></span>
+            <!--Card-->
+            <div class="card mt-2" style="">
+                <div class="row">
+                    <div class="col-3">
+                        <img ng-src="{{artist_result.thumb_url}}" class=""
+                             alt="image_not_found"
+                             width="90px"
+                             height="90px">
+                    </div>
+                    <div class="col-9">
+                        <h5 class="card-title artistName" style="">{{artist_result.name}}</h5>
+                        <span style="display: block"><a ng-link="{{artist_result.facebook_page_url}}">{{artist_result.facebook_page_url}}</a></span>
+                        <a href="#" class="btn btn-primary btn-sm mt-2 mb-2"
+                           ng-click="getArtistEventsFromApi(artist_name)">{{artist_result.upcoming_event_count}}
+                            Events</a>
+                    </div>
+                </div>
+            </div>
+            <!--Card End-->
+        </div>
+    </div>
+    <!--Artist Result Div End-->
+
+    <!--Artist Event Result Div Start-->
     <div class="event_detail_wrapper">
         <span class="mt-2" ng-hide="back" style="cursor: pointer"
               ng-click="backToResult()"><b>< Back to results </b></span>
 
         <div class="row mt-2" style="" ng-hide="back">
             <div class="col-12 col-md-4 col-lg-4" style="">
+                <!--Card-->
                 <div class="card" style="">
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-3">
                             <img ng-src="{{artist_result.thumb_url}}" class=""
-                                 style="display:inline-block;border-radius: 50px;padding: 10px" alt="image_not_found"
+                                 style="" alt="image_not_found"
                                  width="90px"
                                  height="90px">
                         </div>
-                        <div class="col-8">
-                            <h5 class="card-title" style="padding-top: 30px">{{artist_result.name}}</h5>
+                        <div class="col-9">
+                            <h5 class="card-title artistName" style="">{{artist_result.name}}</h5>
                             <span style="display: block"><a>{{artist_result.facebook_page_url}}</a></span>
                         </div>
                     </div>
                 </div>
+                <!--Card End-->
             </div>
 
             <div class="mt-5 col-12 col-md-10 col-lg-9" style="">
                 <span class="mt-2" ng-hide="back"><b>{{artist_events.length}} upcoming events</b></span>
                 <div class="row">
                     <div class="col-sm-12 col-md-4 col-lg-4" ng-repeat="artEvent in artist_events">
+                        <!--Card-->
+                        <!--Event details-->
                         <div class="card mt-2" style="">
                             <div class="card-body">
                                 <h6 class="card-title">Event Details</h6>
@@ -100,12 +116,14 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> <!--Event details End-->
+                        <!--Card End-->
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <!--Artist Event Result Div End-->
 </div>
 <!--Bootstrap CDN-->
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
